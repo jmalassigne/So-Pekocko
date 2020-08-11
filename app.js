@@ -1,5 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+const User = require('./models/User');
 
 mongoose.connect('mongodb+srv://So-Pekocko:So-Pekocko@cluster0.7dlkg.mongodb.net/<dbname>?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -17,12 +20,20 @@ app.use((req, res, next) => {
     next();
   });
 
-app.use('/api',(req, res) => {
-    const stuff = {
-        id: 3837373,
-        prenom: 'juju'
-    };
-    res.json(stuff);
+  app.use(bodyParser.json());
+
+/* middleware test */
+app.post('/api/auth/login', (req, res) => {
+    User.findOne({email: req.body.email}).then(user => res.status(200).json(user)).catch(error => res.status(400).json({ error }))
+})
+
+app.post('/api/auth/signup',(req, res) => {
+    const user = new User({
+        ...req.body
+    });
+    user.save()
+        .then(() => res.status(201).json({message: 'Utilisateur enregistré'}))
+        .catch(error => res.status(400).json({ error }));
 })
 
 
