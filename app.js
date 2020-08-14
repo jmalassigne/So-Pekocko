@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user');
+const sauceRoutes = require('./routes/sauce');
 
 
 mongoose.connect('mongodb+srv://So-Pekocko:So-Pekocko@cluster0.7dlkg.mongodb.net/<dbname>?retryWrites=true&w=majority',
@@ -23,9 +24,13 @@ app.use((req, res, next) => {
 
   app.use(bodyParser.json());
 
-/* middleware test */
-app.use('/api/auth', userRoutes);
 
+app.use('/api/auth', userRoutes);
+app.use('/api/sauces', sauceRoutes);
+
+
+
+ 
 
 
 module.exports = app;
