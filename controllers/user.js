@@ -31,7 +31,7 @@ exports.login = (req, res) => {
                         userId: user._id,
                         token: jwt.sign(
                             {userId: user._id},
-                            'RANDOM_SECRET_TOKEN',
+                            'RANDOM_TOKEN_SECRET',
                             {expiresIn: '24h'}
                         )
                     })
@@ -39,4 +39,5 @@ exports.login = (req, res) => {
                 .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }))
-}
+};
+
